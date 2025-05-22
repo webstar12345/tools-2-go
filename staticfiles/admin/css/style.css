@@ -1,0 +1,29 @@
+/* Style for the cards section */
+.founders .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.founders .card:hover {
+    transform: scale(1.05); /* Slightly enlarge the card */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Add a shadow on hover */
+}
+
+/* Ensure the image is responsive */
+.founders .card-img-top {
+    max-height: 250px;
+    object-fit: cover; /* Ensures images don't get stretched */
+}
+
+/* Style for the description section */
+.description {
+    margin-bottom: 30px;
+}
+
+.description h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.description p {
+    font-size: 1.1rem;
+}

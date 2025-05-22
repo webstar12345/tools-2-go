@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold">Construction Tools 2 Go On Demand</h1>
+                <p class="lead">Access professional construction tools without the high upfront costs. Rent by day, week, month, or year.</p>
+                <div class="mt-4">
+                    <a href="{% url 'tools:tool_list' %}" class="btn btn-primary btn-lg me-2">Browse Tools</a>
+                    <a href="{% url 'tools:create_tool' %}" class="btn btn-outline-light btn-lg">List Your Tools</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="construction pic.jpg" alt="Construction Tools" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Tools Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Featured Tools</h2>
+        <div class="row">
+            {% for tool in featured_tools %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 tool-card">
+                        {% if tool.images.exists %}
+                            <img src="{{ tool.images.first.image.url }}" class="card-img-top" alt="{{ tool.name }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="{{ tool.name }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ tool.name }}</h5>
+                            <p class="card-text">
+                                <span class="badge bg-secondary">{{ tool.category.name }}</span>
+                            </p>
+                            <p class="card-text fw-bold">${{ tool.price_per_day }}/day</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            <a href="{% url 'tools:tool_detail' tool.id %}" class="btn btn-primary w-100">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>No tools available at the moment.</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'tools:tool_list' %}" class="btn btn-outline-primary">View All Tools</a>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">How It Works</h2>
+        <div class="row text-center">
+            <div class="col-md-3 mb-4">
+                <div class="bg-white p-4 rounded shadow-sm h-100">
+                    <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                    <h4>Find Tools</h4>
+                    <p>Browse our extensive catalog of professional construction tools.</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="bg-white p-4 rounded shadow-sm h-100">
+                    <i class="fas fa-calendar-alt fa-3x text-primary mb-3"></i>
+                    <h4>Book & Pay</h4>
+                    <p>Select your rental period and complete your booking securely.</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="bg-white p-4 rounded shadow-sm h-100">
+                    <i class="fas fa-tools fa-3x text-primary mb-3"></i>
+                    <h4>Use Tools</h4>
+                    <p>Pick up your tools or get them delivered to your site.</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="bg-white p-4 rounded shadow-sm h-100">
+                    <i class="fas fa-check-circle fa-3x text-primary mb-3"></i>
+                    <h4>Return</h4>
+                    <p>Return the tools when your rental period is complete.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Browse by Category</h2>
+        <div class="row">
+            {% for category in categories %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ category.name }}</h5>
+                            <p class="card-text">{{ category.description|truncatewords:15 }}</p>
+                            <a href="{% url 'tools:tool_list' %}?category={{ category.id }}" class="btn btn-outline-primary">Browse {{ category.name }}</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>No categories available.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

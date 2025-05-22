@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 450px;">
+        <div class="card-body text-center">
+            <div class="mb-4">
+                <i class="bi bi-credit-card text-primary" style="font-size: 4rem;"></i>
+            </div>
+            <h3 class="card-title mb-3">Complete Your Payment</h3>
+            <p class="card-text mb-4">
+                You are about to pay <strong>$20.00</strong> for your tool rental.
+            </p>
+
+            <form action="{% url 'create-checkout-session' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                    Pay with Card
+                </button>
+            </form>
+
+            <div class="mt-4">
+                <a href="/" class="text-muted small">← Cancel and return to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

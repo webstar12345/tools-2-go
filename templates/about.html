@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>About Us</h1>
+    
+    <!-- Description of the Construction Tools Hire Service -->
+    <section class="description">
+      <h2>Construction Tools Hire</h2>
+      <p>We provide a wide range of construction tools for hire to help you with your building and renovation projects. From heavy machinery to hand tools, we have everything you need to get the job done efficiently and safely. Our tools are well-maintained, and we offer flexible rental plans to suit your project needs.</p>
+    </section>
+
+    <!-- Founders Section with Cards -->
+    <section class="founders">
+      <h2>Meet the Founders</h2>
+      <div class="row">
+        <!-- Founder 1 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img src="{% static 'images/founder1.jpg' %}" alt="Founder 1" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">John Doe</h5>
+              <p class="card-text">John is the visionary behind our construction tools hire service, bringing years of industry expertise to help make the process seamless for our customers.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Founder 2 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img src="{% static 'images/founder2.jpg' %}" alt="Founder 2" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">Jane Smith</h5>
+              <p class="card-text">Jane brings a strong background in customer service and operations, ensuring that every client gets the tools they need at the right time.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Founder 3 -->
+        <div class="col-md-4">
+          <div class="card">
+            <img src="{% static 'images/founder3.jpg' %}" alt="Founder 3" class="card-img-top">
+            <div class="card-body">
+              <h5 class="card-title">Mike Johnson</h5>
+              <p class="card-text">Mike manages the logistics of our services, ensuring that tools are delivered on time and in top condition to every customer.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

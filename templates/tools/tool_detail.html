@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ tool.name }} - ToolHire{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'tools:tool_list' %}">Tools</a></li>
+            <li class="breadcrumb-item active">{{ tool.name }}</li>
+        </ol>
+    </nav>
+    
+    <div class="row">
+        <!-- Tool Images -->
+        <div class="col-md-6 mb-4">
+            <div id="toolCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% if tool.images.exists %}
+                        {% for image in tool.images.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ image.image.url }}" class="d-block w-100 rounded" alt="{{ tool.name }}">
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="carousel-item active">
+                            <img src="https://via.placeholder.com/600x400" class="d-block w-100 rounded" alt="{{ tool.name }}">
+                        </div>
+                    {% endif %}
+                </div>
+                {% if tool.images.count > 1 %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#toolCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#toolCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Tool Details -->
+        <div class="col-md-6">
+            <h1 class="mb-3">{{ tool.name }}</h1>
+            
+            <div class="mb-3">
+                <span class="badge bg-secondary">{{ tool.category.name }}</span>
+                <span class="badge {% if tool.available %}bg-success{% else %}bg-danger{% endif %}">
+                    {% if tool.available %}Available{% else %}Unavailable{% endif %}
+                </span>
+                <span class="badge bg-info">{{ tool.get_condition_display }}</span>
+            </div>
+            
+            <p>{{ tool.description }}</p>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Pricing</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <p><strong>Daily Rate:</strong> ${{ tool.price_per_day }}</p>
+                            <p><strong>Weekly Rate:</strong> ${{ tool.price_per_week }}</p>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Monthly Rate:</strong> ${{ tool.price_per_month }}</p>
+                            <p><strong>Yearly Rate:</strong> ${{ tool.price_per_year }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <h5>Location</h5>
+                <p>{{ tool.location }}</p>
+            </div>
+            
+            <div class="mb-4">
+                <h5>Owner</h5>
+                <p>{{ tool.owner.get_full_name|default:tool.owner.username }}</p>
+            </div>
+            
+            {% if tool.available %}
+                <div class="d-grid">
+                    <a href="{% url 'tools:create_booking' tool.id %}" class="btn btn-primary btn-lg">Rent Now</a>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    This tool is currently unavailable for rent.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Related Tools -->
+    {% if related_tools %}
+        <div class="mt-5">
+            <h3 class="mb-4">Related Tools</h3>
+            <div class="row">
+                {% for related_tool in related_tools %}
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100 tool-card">
+                            {% if related_tool.images.exists %}
+                                <img src="{{ related_tool.images.first.image.url }}" class="card-img-top" alt="{{ related_tool.name }}">
+                            {% else %}
+                                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="{{ related_tool.name }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ related_tool.name }}</h5>
+                                <p class="card-text fw-bold">${{ related_tool.price_per_day }}/day</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0">
+                                <a href="{% url 'tools:tool_detail' related_tool.id %}" class="btn btn-outline-primary w-100">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

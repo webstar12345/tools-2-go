@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Browse Tools - ToolHire{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Browse Construction Tools</h1>
+    
+    <!-- Search and Filter -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Filters</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get">
+                        <div class="mb-3">
+                            <label for="id_name" class="form-label">Tool Name</label>
+                            {% render_field filter.form.name class="form-control" placeholder="Search tools..." %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_category" class="form-label">Category</label>
+                            {% render_field filter.form.category class="form-select" %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_rental_period" class="form-label">Rental Period</label>
+                            {% render_field filter.form.rental_period class="form-select" %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Price Range</label>
+                            <div class="row">
+                                <div class="col">
+                                    {% render_field filter.form.price.start class="form-control" placeholder="Min" %}
+                                </div>
+                                <div class="col">
+                                    {% render_field filter.form.price.stop class="form-control" placeholder="Max" %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Condition</label>
+                            <div>
+                                {% for choice in filter.form.condition %}
+                                    <div class="form-check">
+                                        {{ choice.tag }}
+                                        <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                            {{ choice.choice_label }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Apply Filters</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <!-- Tools Grid -->
+            <div class="row">
+                {% for tool in filter.qs %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 tool-card">
+                            {% if tool.images.exists %}
+                                <img src="{{ tool.images.first.image.url }}" class="card-img-top" alt="{{ tool.name }}">
+                            {% else %}
+                                <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="{{ tool.name }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ tool.name }}</h5>
+                                <p class="card-text">
+                                    <span class="badge bg-secondary">{{ tool.category.name }}</span>
+                                    <span class="badge {% if tool.available %}bg-success{% else %}bg-danger{% endif %}">
+                                        {% if tool.available %}Available{% else %}Unavailable{% endif %}
+                                    </span>
+                                </p>
+                                <p class="card-text fw-bold">
+                                    {% if filter.form.rental_period.value == 'week' %}
+                                        ${{ tool.price_per_week }}/week
+                                    {% elif filter.form.rental_period.value == 'month' %}
+                                        ${{ tool.price_per_month }}/month
+                                    {% elif filter.form.rental_period.value == 'year' %}
+                                        ${{ tool.price_per_year }}/year
+                                    {% else %}
+                                        ${{ tool.price_per_day }}/day
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0">
+                                <a href="{% url 'tools:tool_detail' tool.id %}" class="btn btn-primary w-100">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12 text-center py-5">
+                        <h4>No tools found matching your criteria</h4>
+                        <p>Try adjusting your filters or search terms.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

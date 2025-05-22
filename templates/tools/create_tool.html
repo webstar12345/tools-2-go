@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Add New Tool</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="name" class="form-label">Tool Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter tool name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter tool description" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="price_per_day" class="form-label">Price per Day ($)</label>
+            <input type="number" class="form-control" id="price_per_day" name="price_per_day" step="0.01" placeholder="Enter price" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload Image</label>
+            <input class="form-control" type="file" id="image" name="image">
+        </div>
+
+        <div class="mb-3">
+            <label for="availability" class="form-label">Availability</label>
+            <select class="form-select" id="availability" name="availability" required>
+                <option value="">Select availability</option>
+                <option value="Available">Available</option>
+                <option value="Not Available">Not Available</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Tool</button>
+        <a href="{% url 'tools:tool_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

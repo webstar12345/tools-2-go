@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: my-django-app
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn your_project_name.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: toolhire.settings
+      - key: SECRET_KEY
+        value: nxxbztakn7(hb9#v0z_tr572qmwoy^w0ywyy76blms$yvsielk
+      - key: DEBUG
+        value: False

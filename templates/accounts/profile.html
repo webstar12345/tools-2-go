@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">Profile</h1>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Welcome, {{ user.username }}!</h5>
+            <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+            <p class="card-text"><strong>Joined:</strong> {{ user.date_joined }}</p>
+            <p class="card-text"><strong>Last login:</strong> {{ user.last_login }}</p>
+            
+            <div class="mt-4">
+                <h5>Account Settings</h5>
+                <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+                <a href="{% url 'accounts:logout' %}" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Your Bookings</h5>
+            <ul class="list-group">
+                {% for booking in user.bookings.all %}
+                <li class="list-group-item">
+                    <strong>{{ booking.tool.name }}</strong> - {{ booking.start_date }} to {{ booking.end_date }}
+                    <span class="badge bg-{{ booking.status|lower }}">{{ booking.status }}</span>
+                </li>
+                {% empty %}
+                <li class="list-group-item">No bookings yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
