@@ -17,3 +17,5 @@ ENV/
 # Migrations (optional)
 */migrations/__pycache__/
 *.sqlite3
+
+staticfiles/
