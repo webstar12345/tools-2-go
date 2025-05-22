@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+ENV/
+.venv/
+
+# Django secret files
+.env
+
+# VS Code
+.vscode/
+
+# Migrations (optional)
+*/migrations/__pycache__/
+*.sqlite3
