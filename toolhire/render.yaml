@@ -3,10 +3,10 @@ services:
     name: my-django-app
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn tools2go.wsgi:application"
+    startCommand: "gunicorn toolhire.wsgi:application"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: tools2go.settings
+        value: toolhire.settings
       - key: SECRET_KEY
         value: nxxbztakn7(hb9#v0z_tr572qmwoy^w0ywyy76blms$yvsielk
       - key: DEBUG
