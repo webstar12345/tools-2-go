@@ -14,7 +14,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS', 'localhost')]
+ALLOWED_HOSTS = ['tools-2-go.onrender.com', 'www.tools-2-go.onrender.com']
+
 
 # Application definition
 INSTALLED_APPS = [
